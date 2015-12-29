@@ -3,6 +3,8 @@ Se trata de la implementación de un programa en C, que simula la explosión de 
 
 Las claves serán una contraseña de entre 8 y 10 caracteres, y un código de entre 3 y 6 dígitos decimales. Para que se pueda pedir al usuario la segunda clave, éste debe haber acertado ya la primera en el tiempo estipulado.
 
+La resolución del problema se basa en conseguir las dos claves a traves del ejecutable del programa, para ello obtenemos el lenguaje ensamblador y desciframos cuales son las operaciones que se realizan y cuales son las claves, ya que estas tienen un cifrado especial.
+
 Este es un problema libre resuelto por mi para la asignatura Estructura de Computación de la UGR.
 
 
