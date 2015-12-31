@@ -1,0 +1,38 @@
+Desactivación de la bomba digital
+
+Las contraseñas que debemos averiguar son:
+Contraseña: “12342222” (son carácteres)
+Código: “12056” (numerico)
+Estas contraseñas pueden modificarse en el código fuente y trabajando sobre un nuevo ejecutable, La resolución es la misma.
+
+SOLUCIÓN:
+1º Abrimos el ejecutable "bomba" con el programa de Ubuntu ddd.
+
+2º Una vez dentro del programa, vamos mirando el código desensamblado hasta donde aparece “call 0x80484f0
+<strlen@plt> “ o “call 0x8048530 <strncmp@plt>”.
+
+3º Arriba de esas instrucciones miramos las líneas en donde se muevan valores a la pila, en
+concreto la instrucción “push $0x804a044”.
+
+4º Abrimos Data -> Examine Memory:
+Utilizamos: Examine 4 String bytes from 0x804a044
+Con esto obtenemos:
+contrasena definitiva: 12342222
+y podemos ver la dirección de la clave (segunda contraseña): “0x804a050” (passcode)
+
+5º Ahora buscamos la sentencia “mov 0x804a050,%eax” ya que sabiamos la dirección del
+código, en esa parte, vemos que llamamos a la función atoi en “call 0x8048520
+<atoi@plt>” para pasar a entero la contraseña, esto nos da una pista de que nuestra contraseña, 
+recibe algún tipo de cifrado. Se le suma el código y se desplaza el
+resultado 10 bits a la derecha con la orden “sar $0xa,%eax”, puesto que 0xa en
+hexadecimal equivale a 10 en decimal. Por tanto el código real es la suma de la contraseña y
+el código y desplazando sus bits 10 lugares a la derecha.
+
+6º Abrimos Data-> Examine Memory:
+Examine 1 decimal words(4) from 0x804a050
+Con esto obtenemos:
+código: 3457
+Y para obtener el código definitivo sería:
+(3457 + 12342222) >> 10 = 12056.
+
+Nota: Para introducir la contraseña y el código tenemos un tiempo de 60 segundos.
